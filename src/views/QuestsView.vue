@@ -1,0 +1,115 @@
+<script setup>
+import { ref } from 'vue'
+import { useGameStore } from '../stores/useGameStore'
+
+const game = useGameStore()
+
+// Keep track of which hero is selected for which quest
+const selectedHeroMap = ref({})
+
+function dispatchHero(questId) {
+  const heroId = selectedHeroMap.value[questId]
+  if (!heroId) {
+    alert("Please select a hero first!")
+    return
+  }
+  game.startQuest(Number(heroId), questId)
+}
+</script>
+
+<template>
+  <div class="quest-board">
+    <h2>Quest Board</h2>
+    <p>Send your heroes out to earn gold and fame!</p>
+
+    <ul>
+      <li v-for="quest in game.quests" :key="quest.id" class="quest-card">
+        <div class="quest-info">
+          <img v-if="quest.image" :src="quest.image" alt="Quest Icon" class="quest-icon-img" />
+          <strong>{{ quest.title }}</strong>
+          <span>Reward: 🪙 {{ quest.reward }} | Takes: {{ quest.duration }}s</span>
+        </div>
+
+        <div class="dispatch-area">
+          <!-- Dropdown to select an available hero -->
+          <select v-model="selectedHeroMap[quest.id]">
+            <option disabled value="">Select Hero...</option>
+            <option 
+              v-for="hero in game.adventurers.filter(h => h.status === 'Resting')" 
+              :key="hero.id" 
+              :value="hero.id"
+            >
+              {{ hero.name }} ({{ hero.class }})
+            </option>
+          </select>
+
+          <button @click="dispatchHero(quest.id)">Send</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<style scoped>
+.quest-board {
+  background: #fff8ee;
+  border: 2px solid #d4c3a3;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+.quest-card {
+  background: #f4ebd0;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.quest-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.quest-info span {
+  font-size: 13px;
+  color: #666;
+}
+.dispatch-area {
+  display: flex;
+  gap: 8px;
+}
+select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #c2b280;
+}
+button {
+  background: #2e8b57;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background: #256d44;
+}
+.quest-info-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.quest-icon-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+</style>
