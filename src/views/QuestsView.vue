@@ -20,12 +20,20 @@ function dispatchHero(questId) {
 <template>
   <div class="quest-board">
     <h2>Quest Board</h2>
-    <p>Send your heroes out to earn gold and fame!</p>
+    <p>Send your heroes to complete tasks and earn gold and experience</p>
 
     <ul>
       <li v-for="quest in game.quests" :key="quest.id" class="quest-card">
         <div class="quest-info">
-          <img v-if="quest.image" :src="quest.image" alt="Quest Icon" class="quest-icon-img" />
+          <div class="quest-icons-container">
+            <img 
+              v-for="(img, index) in quest.images" 
+              :key="index" 
+              :src="img" 
+              alt="Quest Icon" 
+              class="quest-icon-img" 
+            />
+          </div>
           <strong>{{ quest.title }}</strong>
           <span>Reward: 🪙 {{ quest.reward }} | Takes: {{ quest.duration }}s</span>
         </div>
@@ -69,8 +77,9 @@ ul {
   border-radius: 6px;
   margin-bottom: 10px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Stack by default for mobile */
+  align-items: stretch;
+  gap: 12px;
 }
 .quest-info {
   display: flex;
@@ -84,11 +93,13 @@ ul {
 .dispatch-area {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 select {
   padding: 6px;
   border-radius: 4px;
   border: 1px solid #c2b280;
+  flex: 1; /* Make dropdown fill available width on mobile */
 }
 button {
   background: #2e8b57;
@@ -106,10 +117,30 @@ button:hover {
   align-items: center;
   gap: 12px;
 }
+.quest-icons-container {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
 .quest-icon-img {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   border-radius: 4px;
+}
+
+/* Desktop screen layout (switches back to your original side-by-side design) */
+@media (min-width: 768px) {
+  .quest-card {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dispatch-area {
+    width: auto;
+  }
+  select {
+    flex: unset;
+  }
 }
 </style>

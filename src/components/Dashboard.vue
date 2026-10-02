@@ -5,11 +5,12 @@ import{ computed } from 'vue'
 const game = useGameStore()
 
 const tavernTitle = computed(() => {
-  if (game.reputation < 20) return '🏚️ Dank Dive Bar'
-  if (game.reputation < 50) return '🍺 Cozy Corner Pub'
-  if (game.reputation < 100) return '🔥 Renowned Adventurer Hotspot'
-  return '🏰 Legendary Grand Tavern'
+  if (game.experience < 25) return '🛖 Dark Age (Level 1)'
+  if (game.experience < 50) return ' ⚔️ Feudal Age (Level 2)'
+  if (game.experience < 100) return '🏰 Castle Age (Level 3)'
+  return '👑 Imperial Age (Level 4)'
 })
+
 </script>
 
 <template>
@@ -23,12 +24,12 @@ const tavernTitle = computed(() => {
       <span class="value">{{ game.gold }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">🍺 Supplies</span>
+      <span class="label"> 🍲 Food</span>
       <span class="value">{{ game.supplies }}</span>
     </div>
     <div class="stat-card">
-      <span class="label">⭐ Reputation</span>
-      <span class="value">{{ game.reputation }}</span>
+      <span class="label">⭐ Experience</span>
+      <span class="value">{{ game.experience }}</span>
     </div>
   </div>
 </div> 
@@ -39,6 +40,8 @@ const tavernTitle = computed(() => {
   display: flex;
   gap: 15px;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 .stat-card {

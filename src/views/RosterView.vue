@@ -7,7 +7,12 @@ const game = useGameStore()
 <template>
   <div class="adventurer-list">
     <h2>Hero Roster</h2>
-    <p>Your hired adventurers waiting for work.</p>
+    <p>Your hired heroes waiting for work.</p>
+
+    <!-- Notification Banner -->
+    <div v-if="game.feedMessage" class="feed-notification">
+      {{ game.feedMessage }}
+    </div>
 
     <ul>
       <li v-for="hero in game.adventurers" :key="hero.id" class="hero-card">
@@ -17,11 +22,25 @@ const game = useGameStore()
           <div>
             <strong>{{ hero.name }}</strong> 
             <span class="class-tag">({{ hero.class }})</span>
+            
+            <!-- Stamina text or mini bar -->
+            <div class="stamina-container">
+              <span>Stamina: {{ hero.stamina }}/100</span>
+              <div class="stamina-bar-bg">
+                <div class="stamina-bar-fill" :style="{ width: hero.stamina + '%' }"></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="hero-status">
-          Status: <span class="badge">{{ hero.status }}</span>
+        <div class="hero-actions">
+          <span :class="['status-badge', hero.status.toLowerCase().includes('resting') ? 'resting' : 'busy']">
+            {{ hero.status }}
+          </span>
+          <!-- Feed button to recover stamina using food supplies -->
+          <button @click="game.feedHero(hero.id)" class="feed-btn" :disabled="hero.stamina >= 100">
+            🍖 Feed
+          </button>
         </div>
       </li>
     </ul>
@@ -48,6 +67,8 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Allows wrapping on smaller mobile screens */
 }
 .hero-info-group {
   display: flex;
@@ -77,4 +98,59 @@ ul {
   border-radius: 4px;
   font-size: 12px;
 }
+
+/* --- New Stamina & Feed Button Styles --- */
+.stamina-container {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #555;
+}
+.stamina-bar-bg {
+  width: 100px;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+.stamina-bar-fill {
+  height: 100%;
+  background: #2e8b57;
+  transition: width 0.3s ease;
+}
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.feed-btn {
+  background: #c0392b;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.feed-btn:hover {
+  background: #a93226;
+}
+.feed-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+.feed-notification {
+  background: #fcf8e3;
+  color: #8a6d3b;
+  border: 1px solid #faebcc;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 10px 0;
+  font-size: 13px;
+  text-align: center;
+  font-weight: bold;
+  animation: fadeIn 0.3s ease;
+}
 </style>
+

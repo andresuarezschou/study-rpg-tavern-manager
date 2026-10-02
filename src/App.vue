@@ -4,16 +4,16 @@ import Dashboard from './components/Dashboard.vue'
 
 <template>
   <main class="game-layout">
-    <h1>Study RPG: Tavern Manager</h1>
+    <h1>Age of Studies</h1>
     
     <!-- Dashboard stays visible on every page! -->
     <Dashboard />
 
     <!-- Navigation Tabs -->
     <nav class="nav-bar">
-      <router-link to="/">Tavern Floor</router-link>
-      <router-link to="/quests">Quest Board</router-link>
-      <router-link to="/roster">Hero Roster</router-link>
+      <router-link to="/">Market</router-link>
+      <router-link to="/quests">Tasks</router-link>
+      <router-link to="/roster">Heroes</router-link>
     </nav>
 
     <!-- The active view/page will load right here -->

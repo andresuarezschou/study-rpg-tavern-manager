@@ -7,15 +7,15 @@ const game = useGameStore()
 
 <template>
   <div class="tavern-floor">
-    <h2>Tavern Floor</h2>
-    <p>Keep the patrons happy and manage your stock!</p>
+    <h2>Market</h2>
+    <p>Buy and sell</p>
 
     <div class="action-buttons">
       <button @click="game.serveCustomer" :disabled="game.supplies <= 0">
-        Serve Customer (+5 Gold)
+        Sell food (+5 Gold)
       </button>
       <button @click="game.buySupplies" :disabled="game.gold < 15">
-        Buy Supplies (-15 Gold)
+        Buy food (-15 Gold)
       </button>
     </div>
 
