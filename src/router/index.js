@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TavernView from '../views/TavernView.vue'
 import QuestsView from '../views/QuestsView.vue'
 import RosterView from '../views/RosterView.vue'
+import LibraryView from '../views/LibraryView.vue'
 
 const routes = [
   { path: '/', name: 'Tavern', component: TavernView },
   { path: '/quests', name: 'Quests', component: QuestsView },
-  { path: '/roster', name: 'Roster', component: RosterView }
+  { path: '/roster', name: 'Roster', component: RosterView },
+  { path: '/library', name: 'LibraryView', component: LibraryView }
 ]
 
 const router = createRouter({

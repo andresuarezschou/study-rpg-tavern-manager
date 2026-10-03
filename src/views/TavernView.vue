@@ -7,7 +7,7 @@ const game = useGameStore()
 
 <template>
   <div class="tavern-floor">
-    <h2>Market</h2>
+    <h2>Market ⚖️</h2>
     <p>Buy and sell</p>
 
     <div class="action-buttons">
@@ -19,7 +19,8 @@ const game = useGameStore()
       </button>
     </div>
 
-    <p v-if="game.supplies <= 0" class="warning">⚠️ Out of supplies! Buy more to keep serving.</p>
+    <p v-if="game.supplies <= 0" class="warning"> Not enough food </p>
+    <p v-if="game.gold <=0" class="warning"> Not enough gold </p>
   </div>
 </template>
 

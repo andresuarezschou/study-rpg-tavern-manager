@@ -19,8 +19,13 @@ function dispatchHero(questId) {
 
 <template>
   <div class="quest-board">
-    <h2>Quest Board</h2>
+    <h2>Quest Board 📜</h2>
     <p>Send your heroes to complete tasks and earn gold and experience</p>
+
+    <!-- Quiz Result Notification Banner -->
+    <div v-if="game.quizMessage" class="quiz-notification">
+      {{ game.quizMessage }}
+    </div>
 
     <ul>
       <li v-for="quest in game.quests" :key="quest.id" class="quest-card">
@@ -35,7 +40,7 @@ function dispatchHero(questId) {
             />
           </div>
           <strong>{{ quest.title }}</strong>
-          <span>Reward: 🪙 {{ quest.reward }} | Takes: {{ quest.duration }}s</span>
+          <span>Reward: 🪙 {{ quest.reward }}</span>
         </div>
 
         <div class="dispatch-area">
@@ -43,7 +48,7 @@ function dispatchHero(questId) {
           <select v-model="selectedHeroMap[quest.id]">
             <option disabled value="">Select Hero...</option>
             <option 
-              v-for="hero in game.adventurers.filter(h => h.status === 'Resting')" 
+              v-for="hero in game.adventurers.filter(h => h.status === 'Resting'&& h.stamina > 0)" 
               :key="hero.id" 
               :value="hero.id"
             >
@@ -55,6 +60,25 @@ function dispatchHero(questId) {
         </div>
       </li>
     </ul>
+  </div>
+
+  <!-- Quiz Modal Overlay -->
+  <div v-if="game.activeQuiz" class="quiz-modal-overlay">
+    <div class="quiz-card">
+      <h3>📖 Study Check: {{ game.activeQuiz.quest.title }}</h3>
+      <p class="question-text">{{ game.activeQuiz.quiz.question }}</p>
+
+      <div class="options-container">
+        <button 
+          v-for="(option, index) in game.activeQuiz.quiz.options" 
+          :key="index"
+          @click="game.submitQuizAnswer(index)"
+          class="option-btn"
+        >
+          {{ option }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -142,5 +166,74 @@ button:hover {
   select {
     flex: unset;
   }
+}
+.quiz-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.quiz-card {
+  background: #fff8ee;
+  border: 3px solid #c2b280;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.quiz-card h3 {
+  margin-bottom: 12px;
+  color: #4a3b2c;
+}
+
+.question-text {
+  font-size: 15px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  background: #f4ebd0;
+  color: #333;
+  border: 1px solid #c2b280;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.option-btn:hover {
+  background: #e6dcbc;
+}
+.quiz-notification {
+  background: #fcf8e3;
+  color: #8a6d3b;
+  border: 2px solid #faebcc;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  animation: fadeIn 0.3s ease;
 }
 </style>
