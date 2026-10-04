@@ -12,9 +12,9 @@ export const useGameStore = defineStore('game', () => {
   // Roster of Adventurers
   const adventurers = ref([
     { id: 1, name: 'William Wallace', class: 'Militia', icon: '🧑‍🌾', stamina: 50, status: 'Resting' },
-    { id: 2, name: 'Prithviraj Chauhan', class: 'Archer', icon: '🏹', stamina: 100, status: 'Resting' },
-    { id: 3, name:'Harald Hadrada', class: 'Berserker', icon: '🪓', stamina: 100, status: 'Resting' },
-    { id: 4, name:'Charlemagne', class: 'Cavalry', icon: '🐎', stamina: 100, status: 'Resting' }
+    { id: 2, name: 'Prithviraj Chauhan', class: 'Archer', icon: '🏹', stamina: 50, status: 'Resting' },
+    { id: 3, name:'Harald Hadrada', class: 'Berserker', icon: '🪓', stamina: 50, status: 'Resting' },
+    { id: 4, name:'Charlemagne', class: 'Cavalry', icon: '🐎', stamina: 50, status: 'Resting' }
   ])
   
   const router = useRouter() 
@@ -55,7 +55,7 @@ export const useGameStore = defineStore('game', () => {
         correctIndex: 1
       }
     },
-    { id: 3, title: 'read Houde and Hill',
+    { id: 3, title: 'Library quest: read Houde and Hill',
       images: ['/houde-hill.png', '/houde-hill2.png'],
       reward: 20, difficulty: 'Medium' },
     { 

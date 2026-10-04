@@ -39,7 +39,7 @@ const game = useGameStore()
           </span>
           <!-- Feed button to recover stamina using food supplies -->
           <button @click="game.feedHero(hero.id)" class="feed-btn" :disabled="hero.stamina >= 100">
-             🍇Feed
+             🥞 Feed
           </button>
         </div>
       </li>

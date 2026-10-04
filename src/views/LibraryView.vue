@@ -5,8 +5,8 @@ import { ref } from 'vue'
 const game = useGameStore()
 
 const documents = ref([
-  { id: 1, title: 'Houde and Hill - Study Guide', file: '/houde-hill.pdf' },
-  { id: 2, title: 'Vue 3 Composition & Routing Notes', file: '/vue-notes.pdf' }
+  { id: 1, title: 'Houde and Hill - what do prototypes prototype', file: '/houde-hill.pdf' },
+  { id: 2, title: 'The relational Model', file: 'Database-systems.pdf' }
 ])
 
 const selectedDoc = ref(documents.value[0].file)

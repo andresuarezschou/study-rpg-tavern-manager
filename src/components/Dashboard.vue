@@ -24,7 +24,7 @@ const tavernTitle = computed(() => {
       <span class="value">{{ game.gold }}</span>
     </div>
     <div class="stat-card">
-      <span class="label"> 🍲 Food</span>
+      <span class="label">🥞 Food</span>
       <span class="value">{{ game.supplies }}</span>
     </div>
     <div class="stat-card">
