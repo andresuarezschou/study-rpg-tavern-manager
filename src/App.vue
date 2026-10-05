@@ -17,6 +17,7 @@ const game = useGameStore() // <--- 2. Initialize store instance
       <router-link to="/">Market</router-link>
       <router-link to="/quests">Quests</router-link>
       <router-link to="/roster">Heroes</router-link>
+      <router-link to="/blacksmith">Blacksmith ⚒️ </router-link>
       
       <!-- Library tab is only active/clickable when a hero is on a quest -->
       <router-link 

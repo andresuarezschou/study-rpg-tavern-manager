@@ -8,6 +8,7 @@ export const useGameStore = defineStore('game', () => {
   const gold = ref(0)
   const supplies = ref(0)
   const experience = ref(0)
+  const weaponLevel = ref(1)
 
   // Roster of Adventurers
   const adventurers = ref([
@@ -29,6 +30,7 @@ export const useGameStore = defineStore('game', () => {
     { 
       id: 1, 
       title: 'mysql', 
+      level: 1,
       images: ['/sql.png'],
       reward: 20,
       difficulty: 'Easy',
@@ -41,6 +43,7 @@ export const useGameStore = defineStore('game', () => {
     { 
       id: 2, 
       title: 'express and sequelize', 
+      level: 1,
       images: ['/express.png','/sequelizejs.png'], 
       reward: 50, 
       difficulty: 'Medium',
@@ -56,11 +59,13 @@ export const useGameStore = defineStore('game', () => {
       }
     },
     { id: 3, title: 'Library quest: read Houde and Hill',
+      level: 1,
       images: ['/houde-hill.png', '/houde-hill2.png'],
       reward: 20, difficulty: 'Medium' },
     { 
       id: 4, 
       title: 'vue',
+      level: 1,
       images: ['/vue.png'],
       reward: 50,
       difficulty: 'Medium',
@@ -74,11 +79,39 @@ export const useGameStore = defineStore('game', () => {
         ],
         correctIndex: 3 
       } 
+    },
+    {
+      id: 5,
+      title: 'Advanced Database Systems',
+      level: 2,
+      images: ['/sql.png'],
+      reward: 100,
+      difficulty: 'Hard',
+      quiz: {
+        question: "What does ACID stand for in database transactions?",
+        options: [
+          "Atomicity, Consistency, Isolation, Durability",
+          "Accuracy, Completeness, Integrity, Dependability",
+          "Access, Control, Information, Distribution",
+          "Analysis, Creation, Implementation, Design"
+        ],
+        correctIndex: 0
+      }
     }
   ])
 
   // Actions
   
+  function upgradeWeapon() {
+    const cost = weaponLevel.value * 50
+    if (gold.value >= cost) {
+      gold.value -= cost
+      weaponLevel.value++
+      return true
+    }
+    return false
+  }
+
   function serveCustomer() {
     if (supplies.value > 0) {
       supplies.value -= 3 
@@ -123,6 +156,13 @@ export const useGameStore = defineStore('game', () => {
     const quest = quests.value.find(q => q.id === questId)
 
     if (!hero || hero.status !== 'Resting') return
+
+// 🔒 Enforce weapon level prerequisite for Level 2+ quests
+    if (quest.level > weaponLevel.value) {
+      quizMessage.value = `⚠️ You must upgrade your weapon at the Blacksmith to unlock Level ${quest.level} quests!`
+      setTimeout(() => { quizMessage.value = '' }, 4000)
+      return
+    }
 
     // Check if it's the reading quest (Library Quest)
     if (quest.id === 3 || quest.title.toLowerCase().includes('read')) {
@@ -188,15 +228,20 @@ export const useGameStore = defineStore('game', () => {
   }
 
  const hasActiveQuest = computed(() => {
-    return adventurers.value.some(hero => 
-      hero.status && hero.status.includes('read Houde and Hill')
-    )
-  })
+   return adventurers.value.some(hero => 
+     hero.status && hero.status.includes('read Houde and Hill')
+   )
+ })
 
-  return { 
-    gold, supplies, experience, adventurers, quests, 
-    serveCustomer, buySupplies, startQuest, feedHero, 
-    feedMessage, activeQuiz, submitQuizAnswer, quizMessage, 
-    hasActiveQuest, activeQuestSession, completeQuest 
-  }
-})
+ const availableQuests = computed(() => {
+   return quests.value.filter(q => q.level <= weaponLevel.value)
+ })
+
+ return { 
+   gold, supplies, experience, adventurers, quests, 
+   weaponLevel, upgradeWeapon, availableQuests,
+   serveCustomer, buySupplies, startQuest, feedHero, 
+   feedMessage, activeQuiz, submitQuizAnswer, quizMessage, 
+   hasActiveQuest, activeQuestSession, completeQuest 
+ }
+ })

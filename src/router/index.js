@@ -3,12 +3,14 @@ import TavernView from '../views/TavernView.vue'
 import QuestsView from '../views/QuestsView.vue'
 import RosterView from '../views/RosterView.vue'
 import LibraryView from '../views/LibraryView.vue'
+import BlacksmithView from '../views/BlacksmithView.vue'
 
 const routes = [
   { path: '/', name: 'Tavern', component: TavernView },
   { path: '/quests', name: 'Quests', component: QuestsView },
   { path: '/roster', name: 'Roster', component: RosterView },
-  { path: '/library', name: 'LibraryView', component: LibraryView }
+  { path: '/library', name: 'LibraryView', component: LibraryView },
+  { path: '/blacksmith', name: 'Blacksmith', component: BlacksmithView }
 ]
 
 const router = createRouter({
